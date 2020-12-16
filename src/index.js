@@ -9,23 +9,28 @@ import axios from 'axios';
 import App from './App';
 
 // this startingPlantArray should eventually be removed
-const startingPlantArray = [
-  { id: 1, name: 'Rose' },
-  { id: 2, name: 'Tulip' },
-  { id: 3, name: 'Oak' },
-];
+const startingPlantArray = [];
 
 const plantList = (state = startingPlantArray, action) => {
   switch (action.type) {
     case 'ADD_PLANT':
-      return [...state, action.payload];
+      return action.payload;
     default:
       return state;
   }
 };
 
 function* rootSaga() {
-  //stuff
+  yield takeEvery('FETCH_ELEMENTS', fetchElements);
+}
+
+function* fetchElements() {
+  try {
+    const response = yield axios.get('/api/plant');
+    yield put({ type: 'ADD_PLANT', payload: response.data });
+  } catch (error) {
+    console.log('error with fetch element request', error);
+  }
 }
 
 const sagaMiddleWare = createSagaMiddleware();
