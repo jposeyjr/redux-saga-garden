@@ -17,7 +17,7 @@ class PlantList extends Component {
         <h3>This is the plant list</h3>
         <ul>
           {this.props.reduxState.plantList.map((plantItem) => (
-            <li key={plantItem.id}>{plantItem.name}</li>
+            <li key={plantItem.id}>Name: {plantItem.name}</li>
           ))}
         </ul>
         <pre>{JSON.stringify(this.props.reduxState)}</pre>

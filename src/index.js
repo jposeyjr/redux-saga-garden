@@ -22,6 +22,16 @@ const plantList = (state = startingPlantArray, action) => {
 
 function* rootSaga() {
   yield takeEvery('FETCH_ELEMENTS', fetchElements);
+  yield takeEvery('ADD_ELEMENTS', addElement);
+}
+
+function* addElement(action) {
+  try {
+    yield axios.post('/api/plant', action.payload);
+    yield fetchElements();
+  } catch (error) {
+    console.log('Error posting elements: ', error);
+  }
 }
 
 function* fetchElements() {
