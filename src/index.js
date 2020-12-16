@@ -23,6 +23,7 @@ const plantList = (state = startingPlantArray, action) => {
 function* rootSaga() {
   yield takeEvery('FETCH_ELEMENTS', fetchElements);
   yield takeEvery('ADD_ELEMENTS', addElement);
+  yield takeEvery('DELETE_ELEMENT', deleteElement);
 }
 
 function* addElement(action) {
@@ -40,6 +41,15 @@ function* fetchElements() {
     yield put({ type: 'ADD_PLANT', payload: response.data });
   } catch (error) {
     console.log('error with fetch element request', error);
+  }
+}
+
+function* deleteElement(action) {
+  try {
+    yield axios.delete(`/api/plant/${action.payload}`);
+    yield put({ type: 'FETCH_ELEMENTS' });
+  } catch (error) {
+    console.log('error with delete request', error);
   }
 }
 
